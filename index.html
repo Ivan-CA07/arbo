@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Navidad Cobroactivo!</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        body, html {
+            width: 100%; height: 100%; overflow: hidden;
+            background: radial-gradient(circle at 50% 45%, #0b1630 0%, #020308 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        canvas { display: block; width: 100%; height: 100%; }
+        .hero-header {
+            position: absolute; top: 24px; width: 100%; text-align: center;
+            z-index: 10; pointer-events: none; padding: 0 20px;
+        }
+        .title-navidad {
+            font-family: Georgia, serif;
+            font-size: clamp(1.6rem, 4vw, 3.4rem);
+            font-weight: 900; letter-spacing: 3px;
+            background: linear-gradient(135deg, #fff6d6 0%, #ffd700 45%, #ff9900 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(255, 190, 50, 0.75));
+            pointer-events: auto; cursor: pointer; display: inline-block;
+            transition: transform 0.25s ease;
+        }
+        .title-navidad:hover { transform: scale(1.04); }
+        .subtitle {
+            color: rgba(255, 255, 255, 0.65); font-size: 11px; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase; margin-top: 6px;
+        }
+        .ui-panel {
+            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 10px; padding: 10px 18px;
+            background: rgba(12, 18, 32, 0.65); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; z-index: 10;
+        }
+        .theme-btn {
+            background: transparent; border: 1px solid transparent;
+            color: rgba(255, 255, 255, 0.75); padding: 8px 16px; border-radius: 30px;
+            font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .theme-btn.active {
+            color: #fff; background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-header">
+        <h1 class="title-navidad" id="navidadTitle">¡FELIZ NAVIDAD COBROACTIVO!</h1>
+        <div class="subtitle">Arrastra para rotar &bull; Clic para onda de energía</div>
+    </div>
+    <canvas id="scene"></canvas>
+    <div class="ui-panel">
+        <button class="theme-btn active" data-theme="imperial">Clásico Imperial</button>
+        <button class="theme-btn" data-theme="cyberpunk">Cyberpunk Neón</button>
+        <button class="theme-btn" data-theme="aurora">Aurora Boreal</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('scene');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const THEMES = {
+            imperial: {
+                bg: 'radial-gradient(circle at 50% 45%, #0b1630 0%, #020308 100%)',
+                titleGrad: 'linear-gradient(135deg, #fff6d6 0%, #ffd700 45%, #ff9900 100%)',
+                colors: ['#00ff95', '#ffd000', '#ff2a5f', '#ffffff']
+            },
+            cyberpunk: {
+                bg: 'radial-gradient(circle at 50% 45%, #16052e 0%, #030108 100%)',
+                titleGrad: 'linear-gradient(135deg, #ffffff 0%, #00f0ff 45%, #ff007f 100%)',
+                colors: ['#00f0ff', '#ff007f', '#b5179e', '#ffffff']
+            },
+            aurora: {
+                bg: 'radial-gradient(circle at 50% 45%, #041e2b 0%, #01060a 100%)',
+                titleGrad: 'linear-gradient(135deg, #ffffff 0%, #00ffd5 50%, #38b6ff 100%)',
+                colors: ['#00ffd5', '#38b6ff', '#a8ff78', '#ffffff']
+            }
+        };
+        let currentTheme = THEMES.imperial;
+        const particles = [];
+        const TREE_H = 440;
+        const BASE_R = 175;
+        const TOTAL_P = 2200;
+
+        for (let i = 0; i < TOTAL_P; i++) {
+            const t = i / TOTAL_P;
+            const y = (t - 0.5) * TREE_H;
+            const maxR = BASE_R * (1 - Math.pow(t, 0.88));
+            const isRibbon = i % 5 === 0;
+            const r = isRibbon ? maxR * 1.04 : maxR * Math.sqrt(Math.random());
+            const angle = isRibbon ? t * Math.PI * 14 + (i % 3) * 2.09 : i * 2.39996;
+            const colorIdx = isRibbon ? (i % 3) : (Math.random() < 0.6 ? 0 : (Math.random() < 0.8 ? 1 : 2));
+
+            particles.push({
+                baseY: y,
+                baseR: r,
+                angle: angle,
+                size: isRibbon ? 2.6 : (1.2 + Math.random() * 2.4),
+                colorIdx: colorIdx,
+                phase: Math.random() * Math.PI * 2,
+                isOrnament: !isRibbon && Math.random() < 0.04
+            });
+        }
+
+        const snow = [];
+        for (let i = 0; i < 280; i++) {
+            snow.push({
+                x: (Math.random() - 0.5) * 1400,
+                y: (Math.random() - 0.5) * 900,
+                z: (Math.random() - 0.5) * 900,
+                speed: 0.8 + Math.random() * 1.8,
+                size: 1.5 + Math.random() * 3.5
+            });
+        }
+
+        let rotY = 0;
+        let isDragging = false;
+        let lastX = 0;
+        let mouseX = -9999;
+        let mouseY = -9999;
+        let shockwaveY = 9999;
+        let shockwaveActive = false;
+
+        window.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            lastX = e.clientX;
+            shockwaveY = TREE_H * 0.5;
+            shockwaveActive = true;
+        });
+        window.addEventListener('pointermove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (isDragging) {
+                rotY += (e.clientX - lastX) * 0.008;
+                lastX = e.clientX;
+            }
+        });
+        window.addEventListener('pointerup', () => { isDragging = false; });
+
+        const titleEl = document.getElementById('navidadTitle');
+        titleEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            shockwaveY = TREE_H * 0.5;
+            shockwaveActive = true;
+        });
+
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTheme = THEMES[btn.dataset.theme];
+                document.body.style.background = currentTheme.bg;
+                titleEl.style.background = currentTheme.titleGrad;
+                titleEl.style.webkitBackgroundClip = 'text';
+                shockwaveY = TREE_H * 0.5;
+                shockwaveActive = true;
+            });
+        });
+
+        function project(x, y, z) {
+            const fov = 680;
+            const scale = fov / (fov + z + 480);
+            return {
+                x: W * 0.5 + x * scale,
+                y: H * 0.54 + y * scale,
+                scale: scale,
+                z: z
+            };
+        }
+
+        let time = 0;
+        function draw() {
+            requestAnimationFrame(draw);
+            time += 0.025;
+            if (!isDragging) rotY += 0.008;
+
+            ctx.clearRect(0, 0, W, H);
+            ctx.globalCompositeOperation = 'lighter';
+
+            if (shockwaveActive) {
+                shockwaveY -= 9;
+                if (shockwaveY < -TREE_H * 0.65) shockwaveActive = false;
+            }
+
+            // Nieve 3D
+            for (let i = 0; i < snow.length; i++) {
+                const s = snow[i];
+                s.y += s.speed;
+                s.x += Math.sin(time + i) * 0.3;
+                if (s.y > 450) s.y = -450;
+                const p = project(s.x, s.y, s.z);
+                if (p.scale > 0) {
+                    ctx.fillStyle = 'rgba(220, 240, 255, ' + Math.min(0.75, p.scale * 0.6) + ')';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, s.size * p.scale, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Renderizar partículas del árbol y su reflejo en el suelo
+            const renderList = [];
+            for (let i = 0; i < particles.length; i++) {
+                const pt = particles[i];
+                const pulse = Math.sin(time * 2 + pt.phase) * 3;
+                let r = pt.baseR + pulse;
+                let y = -pt.baseY;
+
+                if (shockwaveActive) {
+                    const distW = Math.abs(y - shockwaveY);
+                    if (distW < 45) r += (1 - distW / 45) * 28;
+                }
+
+                const a = pt.angle + rotY;
+                const x = Math.cos(a) * r;
+                const z = Math.sin(a) * r;
+                const proj = project(x, y, z);
+
+                // Repulsión con el cursor
+                const dx = proj.x - mouseX;
+                const dy = proj.y - mouseY;
+                const dMouse = Math.hypot(dx, dy);
+                if (dMouse < 90) {
+                    const push = (1 - dMouse / 90) * 22;
+                    proj.x += (dx / dMouse) * push;
+                    proj.y += (dy / dMouse) * push;
+                }
+
+                renderList.push({
+                    x: proj.x, y: proj.y, z: z,
+                    size: pt.size * proj.scale * (pt.isOrnament ? 2.2 : 1),
+                    color: currentTheme.colors[pt.colorIdx],
+                    isOrnament: pt.isOrnament
+                });
+
+                // Reflejo en el suelo
+                if (i % 3 === 0) {
+                    const floorY = TREE_H * 0.52;
+                    const refY = floorY + (floorY - y) * 0.65;
+                    const refProj = project(x, refY, z);
+                    renderList.push({
+                        x: refProj.x, y: refProj.y, z: z,
+                        size: pt.size * refProj.scale * 0.9,
+                        color: currentTheme.colors[pt.colorIdx],
+                        alpha: 0.16
+                    });
+                }
+            }
+
+            renderList.sort((a, b) => b.z - a.z);
+
+            for (let i = 0; i < renderList.length; i++) {
+                const item = renderList[i];
+                ctx.globalAlpha = item.alpha || (item.isOrnament ? 0.95 : 0.78);
+                ctx.fillStyle = item.color;
+                ctx.beginPath();
+                ctx.arc(item.x, item.y, Math.max(0.6, item.size), 0, Math.PI * 2);
+                ctx.fill();
+
+                if (item.isOrnament) {
+                    ctx.globalAlpha = 0.28;
+                    ctx.beginPath();
+                    ctx.arc(item.x, item.y, item.size * 2.6, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Estrella Hiperdimensional en la cima
+            const topProj = project(0, -TREE_H * 0.54, 0);
+            ctx.globalAlpha = 1;
+            const starGrad = ctx.createRadialGradient(topProj.x, topProj.y, 1, topProj.x, topProj.y, 38 * topProj.scale);
+            starGrad.addColorStop(0, '#ffffff');
+            starGrad.addColorStop(0.3, currentTheme.colors[1]);
+            starGrad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = starGrad;
+            ctx.beginPath();
+            ctx.arc(topProj.x, topProj.y, 38 * topProj.scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Anillos giroscópicos
+            ctx.strokeStyle = currentTheme.colors[2];
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.ellipse(topProj.x, topProj.y, 26 * topProj.scale, 9 * topProj.scale, time, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.strokeStyle = currentTheme.colors[0];
+            ctx.beginPath();
+            ctx.ellipse(topProj.x, topProj.y, 22 * topProj.scale, 8 * topProj.scale, -time * 1.3, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        draw();
+    </script>
+</body>
+</html>
