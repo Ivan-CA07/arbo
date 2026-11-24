@@ -1,352 +1,1271 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Feliz Navidad Cobroactivo!</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
-        body, html {
-            width: 100%; height: 100%; overflow: hidden;
-            background: radial-gradient(circle at 50% 45%, #0b1630 0%, #020308 100%);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            transition: background 0.6s ease;
-        }
-        canvas { display: block; width: 100%; height: 100%; }
-        .hero-header {
-            position: absolute; top: 20px; width: 100%; text-align: center;
-            z-index: 10; pointer-events: none; padding: 0 20px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .logo-badge {
-            pointer-events: auto;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(10px);
-            padding: 8px 22px;
-            border-radius: 50px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 25px rgba(0, 180, 255, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.6);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .logo-badge:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 32px rgba(255, 215, 0, 0.55), 0 0 0 1px #ffffff;
-        }
-        .logo-badge svg {
-            height: clamp(32px, 5vh, 46px);
-            width: auto;
-            display: block;
-        }
-        .title-navidad {
-            font-family: Georgia, serif;
-            font-size: clamp(1.4rem, 3.6vw, 3.1rem);
-            font-weight: 900; letter-spacing: 3px;
-            background: linear-gradient(135deg, #fff6d6 0%, #ffd700 45%, #ff9900 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(255, 190, 50, 0.75));
-            pointer-events: auto; cursor: pointer; display: inline-block;
-            transition: transform 0.25s ease;
-        }
-        .title-navidad:hover { transform: scale(1.04); }
-        .subtitle {
-            color: rgba(255, 255, 255, 0.65); font-size: 11px; font-weight: 600;
-            letter-spacing: 3px; text-transform: uppercase; margin-top: 6px;
-        }
-        .ui-panel {
-            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 10px; padding: 10px 18px;
-            background: rgba(12, 18, 32, 0.65); backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; z-index: 10;
-        }
-        .theme-btn {
-            background: transparent; border: 1px solid transparent;
-            color: rgba(255, 255, 255, 0.75); padding: 8px 16px; border-radius: 30px;
-            font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s;
-            white-space: nowrap;
-        }
-        .theme-btn.active {
-            color: #fff; background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>¡Feliz Navidad Cobroactivo!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(
+        circle at 50% 42%,
+        #13254c 0%,
+        #050a18 65%,
+        #020308 100%
+      );
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      transition: background 0.8s ease;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+    }
+    .hero-header {
+      position: absolute;
+      top: 16px;
+      width: 100%;
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+      padding: 0 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo-badge {
+      pointer-events: auto;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 8px 22px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 25px rgba(0, 180, 255, 0.35);
+      transition: transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-badge:hover {
+      transform: scale(1.05);
+    }
+    .logo-badge svg {
+      height: clamp(30px, 4.8vh, 44px);
+      width: auto;
+      display: block;
+    }
+    .title-navidad {
+      font-family: Georgia, serif;
+      font-size: clamp(1.2rem, 3.1vw, 2.65rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1.15;
+      background: linear-gradient(
+        135deg, #fff6d6 0%, #ffd700 45%, #ff9900 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 22px rgba(255, 190, 50, 0.85));
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    .subtitle {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+    .ui-panel {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      max-width: 96vw;
+      background: rgba(10, 16, 30, 0.74);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50px;
+      z-index: 10;
+    }
+    .theme-btn, .action-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: rgba(255, 255, 255, 0.85);
+      padding: 7px 11px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .theme-btn.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.55);
+    }
+    .action-btn.highlight {
+      border-color: rgba(255, 215, 0, 0.45);
+      color: #ffe680;
+    }
+  </style>
 </head>
 <body>
-    <div class="hero-header">
-        <div class="logo-badge" id="logoBadge" title="Cobroactivo - Salvamos Recursos">
-            <svg viewBox="0 0 430 92" xmlns="http://w3.org">
-                <path d="M 52 10 C 22 14, 6 42, 14 68 C 19 82, 34 86, 46 82 C 30 78, 22 62, 26 43 C 30 25, 46 15, 68 18 C 63 12, 57 9, 52 10 Z" fill="#073262"/>
-                <path d="M 48 22 C 66 23, 78 38, 76 57 C 74 75, 58 86, 36 82 C 26 80, 19 75, 15 69 C 23 84, 41 91, 59 87 C 81 82, 94 60, 88 39 C 83 24, 66 18, 48 22 Z" fill="#7D8082"/>
-                <text x="106" y="61" font-family="'Segoe UI', Arial, sans-serif" font-size="47" letter-spacing="-1">
-                    <tspan font-weight="800" fill="#073262">Cobro</tspan><tspan font-weight="300" fill="#073262">activo</tspan>
-                </text>
-                <text x="234" y="83" font-family="'Segoe UI', Arial, sans-serif" font-size="18.5" font-weight="400" fill="#6D7072" letter-spacing="0.4">Salvamos Recursos</text>
-            </svg>
-        </div>
-
-        <h1 class="title-navidad" id="navidadTitle">¡FELIZ NAVIDAD!</h1>
-        <div class="subtitle">Arrastra para rotar &bull; Clic para onda de energía</div>
+  <div class="hero-header">
+    <div class="logo-badge" id="logoBadge">
+      <svg viewBox="0 0 430 92"
+           xmlns="http://w3.org">
+        <path d="M 52 10 C 22 14, 6 42, 14 68
+                 C 19 82, 34 86, 46 82
+                 C 30 78, 22 62, 26 43
+                 C 30 25, 46 15, 68 18
+                 C 63 12, 57 9, 52 10 Z"
+              fill="#073262"/>
+        <path d="M 48 22 C 66 23, 78 38, 76 57
+                 C 74 75, 58 86, 36 82
+                 C 26 80, 19 75, 15 69
+                 C 23 84, 41 91, 59 87
+                 C 81 82, 94 60, 88 39
+                 C 83 24, 66 18, 48 22 Z"
+              fill="#7D8082"/>
+        <text x="106" y="61"
+              font-family="'Segoe UI', Arial, sans-serif"
+              font-size="47" letter-spacing="-1">
+          <tspan font-weight="800"
+                 fill="#073262">Cobro</tspan><tspan
+                 font-weight="300"
+                 fill="#073262">activo</tspan>
+        </text>
+        <text x="234" y="83"
+              font-family="'Segoe UI', Arial, sans-serif"
+              font-size="18.5" font-weight="400"
+              fill="#6D7072" letter-spacing="0.4">
+          Salvamos Recursos
+        </text>
+      </svg>
     </div>
-
-    <canvas id="scene"></canvas>
-
-    <div class="ui-panel">
-        <button class="theme-btn active" data-theme="imperial">Clásico Imperial</button>
-        <button class="theme-btn" data-theme="cyberpunk">Cyberpunk Neón</button>
-        <button class="theme-btn" data-theme="aurora">Aurora Boreal</button>
+    <h1 class="title-navidad" id="navidadTitle">
+      ¡FELIZ NAVIDAD COBROACTIVO!
+    </h1>
+    <div class="subtitle">
+      Arrastra &bull; Clic energía &bull; + Lucesitas
     </div>
+  </div>
 
-    <script>
-        const canvas = document.getElementById('scene');
-        const ctx = canvas.getContext('2d');
-        let W, H;
+  <canvas id="scene"></canvas>
 
-        function resize() {
-            W = canvas.width = window.innerWidth;
-            H = canvas.height = window.innerHeight;
+  <div class="ui-panel">
+    <button class="theme-btn active"
+            data-theme="imperial">Imperial</button>
+    <button class="theme-btn"
+            data-theme="cyberpunk">Cyberpunk</button>
+    <button class="theme-btn"
+            data-theme="aurora">Aurora</button>
+    <button class="action-btn highlight"
+            id="addLightsBtn">
+      💡 + Luces (<span id="lightCount">0</span>)
+    </button>
+    <button class="action-btn highlight"
+            id="elfBtn">🧝 + Duende</button>
+    <button class="action-btn"
+            id="fireworkBtn">✨ Destello</button>
+    <button class="action-btn"
+            id="soundBtn">🔊 Sonido</button>
+  </div>
+  <script>
+    const canvas = document.getElementById('scene');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function playMagicChime(pitch = 1) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          const AC = window.AudioContext ||
+                     window.webkitAudioContext;
+          audioCtx = new AC();
         }
-        window.addEventListener('resize', resize);
-        resize();
-
-        const THEMES = {
-            imperial: {
-                bg: 'radial-gradient(circle at 50% 45%, #0b1630 0%, #020308 100%)',
-                titleGrad: 'linear-gradient(135deg, #fff6d6 0%, #ffd700 45%, #ff9900 100%)',
-                colors: ['#00ff95', '#ffd000', '#ff2a5f', '#ffffff']
-            },
-            cyberpunk: {
-                bg: 'radial-gradient(circle at 50% 45%, #16052e 0%, #030108 100%)',
-                titleGrad: 'linear-gradient(135deg, #ffffff 0%, #00f0ff 45%, #ff007f 100%)',
-                colors: ['#00f0ff', '#ff007f', '#b5179e', '#ffffff']
-            },
-            aurora: {
-                bg: 'radial-gradient(circle at 50% 45%, #041e2b 0%, #01060a 100%)',
-                titleGrad: 'linear-gradient(135deg, #ffffff 0%, #00ffd5 50%, #38b6ff 100%)',
-                colors: ['#00ffd5', '#38b6ff', '#a8ff78', '#ffffff']
-            }
-        };
-        let currentTheme = THEMES.imperial;
-        const particles = [];
-        const TREE_H = 420;
-        const BASE_R = 165;
-        const TOTAL_P = 2200;
-
-        for (let i = 0; i < TOTAL_P; i++) {
-            const t = i / TOTAL_P;
-            const y = (t - 0.5) * TREE_H;
-            const maxR = BASE_R * (1 - Math.pow(t, 0.88));
-            const isRibbon = i % 5 === 0;
-            const r = isRibbon ? maxR * 1.04 : maxR * Math.sqrt(Math.random());
-            const angle = isRibbon ? t * Math.PI * 14 + (i % 3) * 2.09 : i * 2.39996;
-            const colorIdx = isRibbon ? (i % 3) : (Math.random() < 0.6 ? 0 : (Math.random() < 0.8 ? 1 : 2));
-
-            particles.push({
-                baseY: y,
-                baseR: r,
-                angle: angle,
-                size: isRibbon ? 2.6 : (1.2 + Math.random() * 2.4),
-                colorIdx: colorIdx,
-                phase: Math.random() * Math.PI * 2,
-                isOrnament: !isRibbon && Math.random() < 0.04
-            });
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
         }
-
-        const snow = [];
-        for (let i = 0; i < 280; i++) {
-            snow.push({
-                x: (Math.random() - 0.5) * 1400,
-                y: (Math.random() - 0.5) * 900,
-                z: (Math.random() - 0.5) * 900,
-                speed: 0.8 + Math.random() * 1.8,
-                size: 1.5 + Math.random() * 3.5
-            });
-        }
-
-        let rotY = 0;
-        let isDragging = false;
-        let lastX = 0;
-        let mouseX = -9999;
-        let mouseY = -9999;
-        let shockwaveY = 9999;
-        let shockwaveActive = false;
-
-        function triggerShockwave() {
-            shockwaveY = TREE_H * 0.5;
-            shockwaveActive = true;
-        }
-
-        window.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            lastX = e.clientX;
-            triggerShockwave();
+        const notes = new Array(
+          523.25, 659.25, 783.99, 1046.5, 1318.5
+        );
+        const now = audioCtx.currentTime;
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(
+            freq * pitch, now + idx * 0.04
+          );
+          gain.gain.setValueAtTime(
+            0.001, now + idx * 0.04
+          );
+          gain.gain.exponentialRampToValueAtTime(
+            0.055, now + idx * 0.04 + 0.03
+          );
+          gain.gain.exponentialRampToValueAtTime(
+            0.0001, now + idx * 0.04 + 1.0
+          );
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + idx * 0.04);
+          osc.stop(now + idx * 0.04 + 1.05);
         });
-        window.addEventListener('pointermove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            if (isDragging) {
-                rotY += (e.clientX - lastX) * 0.008;
-                lastX = e.clientX;
-            }
+      } catch (e) {}
+    }
+    const THEMES = {
+      imperial: {
+        bg: 'radial-gradient(circle at 50% 42%, ' +
+            '#13254c 0%, #050a18 65%, #020308 100%)',
+        titleGrad: 'linear-gradient(135deg, ' +
+            '#fff6d6 0%, #ffd700 45%, #ff9900 100%)',
+        colors: new Array(
+          '#00ff95', '#ffd000', '#ff2a5f', '#ffffff'
+        ),
+        aura: 'rgba(255, 200, 40, 0.12)',
+        aurora1: 'rgba(0, 255, 149, 0.08)',
+        aurora2: 'rgba(255, 208, 0, 0.07)',
+        mountain: '#070f22',
+        gifts: new Array(
+          { box: '#c81d4e', side: '#8f1135',
+            top: '#ea3568', ribbon: '#ffd700' },
+          { box: '#0d47a1', side: '#072a63',
+            top: '#1976d2', ribbon: '#ffffff' },
+          { box: '#00897b', side: '#00564d',
+            top: '#26a69a', ribbon: '#ffd000' }
+        )
+      },
+      cyberpunk: {
+        bg: 'radial-gradient(circle at 50% 42%, ' +
+            '#24094a 0%, #090216 65%, #020006 100%)',
+        titleGrad: 'linear-gradient(135deg, ' +
+            '#ffffff 0%, #00f0ff 45%, #ff007f 100%)',
+        colors: new Array(
+          '#00f0ff', '#ff007f', '#b5179e', '#ffffff'
+        ),
+        aura: 'rgba(0, 240, 255, 0.12)',
+        aurora1: 'rgba(0, 240, 255, 0.09)',
+        aurora2: 'rgba(255, 0, 127, 0.08)',
+        mountain: '#0d041d',
+        gifts: new Array(
+          { box: '#b5179e', side: '#7209b7',
+            top: '#f72585', ribbon: '#00f0ff' },
+          { box: '#0077b6', side: '#03045e',
+            top: '#00b4d8', ribbon: '#ff007f' },
+          { box: '#3a0ca3', side: '#240046',
+            top: '#7209b7', ribbon: '#ffffff' }
+        )
+      },
+      aurora: {
+        bg: 'radial-gradient(circle at 50% 42%, ' +
+            '#083346 0%, #02111a 65%, #010508 100%)',
+        titleGrad: 'linear-gradient(135deg, ' +
+            '#ffffff 0%, #00ffd5 50%, #38b6ff 100%)',
+        colors: new Array(
+          '#00ffd5', '#38b6ff', '#a8ff78', '#ffffff'
+        ),
+        aura: 'rgba(0, 255, 213, 0.12)',
+        aurora1: 'rgba(0, 255, 213, 0.1)',
+        aurora2: 'rgba(168, 255, 120, 0.07)',
+        mountain: '#03151f',
+        gifts: new Array(
+          { box: '#007f5f', side: '#004b23',
+            top: '#2b9348', ribbon: '#a8ff78' },
+          { box: '#0077b6', side: '#023e8a',
+            top: '#0096c7', ribbon: '#ffffff' },
+          { box: '#009688', side: '#004d40',
+            top: '#4db6ac', ribbon: '#00ffd5' }
+        )
+      }
+    };
+    let currentTheme = THEMES.imperial;
+    const TREE_H = 420;
+    const BASE_R = 172;
+    const TOTAL_P = 2600;
+
+    const bgStars = Array.from({ length: 160 }, () => ({
+      x: Math.random(),
+      y: Math.random() * 0.72,
+      r: 0.6 + Math.random() * 1.7,
+      phase: Math.random() * Math.PI * 2,
+      speed: 1.5 + Math.random() * 3
+    }));
+
+    const bokehLights = Array.from({ length: 24 }, () => ({
+      x: Math.random(),
+      y: 0.15 + Math.random() * 0.75,
+      r: 18 + Math.random() * 42,
+      vx: (Math.random() - 0.5) * 0.00025,
+      vy: -0.0001 - Math.random() * 0.0002,
+      colorIdx: Math.floor(Math.random() * 3),
+      phase: Math.random() * Math.PI * 2
+    }));
+
+    const santaSleigh = {
+      x: -320, baseY: 0.24, speed: 1.35
+    };
+    const santaSparkles = new Array();
+
+    // Duende repartidor de regalos
+    const elf = {
+      active: true,
+      x: -140,
+      targetX: -215,
+      state: 'walkIn', // walkIn -> drop -> wave -> walkOut
+      timer: 0,
+      hasGift: true,
+      dir: 1,
+      cooldown: 0
+    };
+
+    function summonElf() {
+      const fromLeft = Math.random() < 0.5;
+      elf.active = true;
+      elf.dir = fromLeft ? 1 : -1;
+      elf.x = fromLeft ? -W * 0.55 : W * 0.55;
+      elf.targetX = fromLeft ? -215 : 215;
+      elf.state = 'walkIn';
+      elf.timer = 0;
+      elf.hasGift = true;
+    }
+
+    const gifts = new Array();
+    for (let i = 0; i < 9; i++) {
+      gifts.push({
+        angle: (i / 9) * Math.PI * 2 + 0.3,
+        dist: BASE_R * (0.62 + (i % 3) * 0.22),
+        w: 26 + (i % 3) * 8,
+        h: 22 + ((i + 1) % 3) * 8,
+        d: 24 + ((i + 2) % 3) * 7,
+        styleIdx: i % 3
+      });
+    }
+    const particles = new Array();
+    for (let i = 0; i < TOTAL_P; i++) {
+      const t = i / TOTAL_P;
+      const y = (t - 0.5) * TREE_H;
+      const maxR = BASE_R * (1 - Math.pow(t, 0.86));
+      const isRibbon = i % 4 === 0;
+      const r = isRibbon
+        ? maxR * 1.05
+        : maxR * Math.sqrt(Math.random());
+      const angle = isRibbon
+        ? t * Math.PI * 16 + (i % 3) * 2.094
+        : i * 2.39996;
+      const colorIdx = isRibbon
+        ? (i % 3)
+        : (Math.random() < 0.58
+            ? 0 : (Math.random() < 0.82 ? 1 : 2));
+      particles.push({
+        baseY: y, baseR: r, angle: angle,
+        size: isRibbon ? 2.7 : (1.1 + Math.random() * 2.3),
+        colorIdx: colorIdx,
+        phase: Math.random() * Math.PI * 2,
+        isOrnament: !isRibbon && Math.random() < 0.045,
+        sparkSpeed: 1.5 + Math.random() * 2.5,
+        isExtraLight: false
+      });
+    }
+
+    let extraLightsAdded = 0;
+    const lightCountEl = document.getElementById('lightCount');
+
+    function addMoreFairyLights(batch = 40) {
+      if (extraLightsAdded >= 400) {
+        particles.length = TOTAL_P;
+        extraLightsAdded = 0;
+      }
+      for (let i = 0; i < batch; i++) {
+        const t = 0.04 + Math.random() * 0.92;
+        const y = (t - 0.5) * TREE_H;
+        const maxR = BASE_R * (1 - Math.pow(t, 0.86));
+        particles.push({
+          baseY: y,
+          baseR: maxR * (0.85 + Math.random() * 0.24),
+          angle: Math.random() * Math.PI * 2,
+          size: 2.6 + Math.random() * 1.4,
+          colorIdx: Math.floor(Math.random() * 4),
+          phase: Math.random() * Math.PI * 2,
+          isOrnament: true,
+          sparkSpeed: 3.0 + Math.random() * 3.5,
+          isExtraLight: true
         });
-        window.addEventListener('pointerup', () => { isDragging = false; });
+      }
+      extraLightsAdded += batch;
+      lightCountEl.textContent = extraLightsAdded;
+      shockwaveY = TREE_H * 0.52;
+      shockwaveActive = true;
+      playMagicChime(1.15);
+    }
+    const snow = Array.from({ length: 320 }, () => ({
+      x: (Math.random() - 0.5) * 1600,
+      y: (Math.random() - 0.5) * 1000,
+      z: (Math.random() - 0.5) * 1000,
+      speed: 0.7 + Math.random() * 1.9,
+      size: 1.2 + Math.random() * 3.2
+    }));
 
-        const titleEl = document.getElementById('navidadTitle');
-        const logoBadge = document.getElementById('logoBadge');
+    const bursts = new Array();
+    const cursorTrail = new Array();
 
-        titleEl.addEventListener('click', (e) => { e.stopPropagation(); triggerShockwave(); });
-        logoBadge.addEventListener('click', (e) => { e.stopPropagation(); triggerShockwave(); });
-
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentTheme = THEMES[btn.dataset.theme];
-                document.body.style.background = currentTheme.bg;
-                titleEl.style.background = currentTheme.titleGrad;
-                titleEl.style.webkitBackgroundClip = 'text';
-                titleEl.style.backgroundClip = 'text';
-                triggerShockwave();
-            });
+    function spawnFirework(x, y, z, count = 75) {
+      for (let i = 0; i < count; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const speed = 2.5 + Math.random() * 6.5;
+        const cIdx = Math.floor(Math.random() * 4);
+        bursts.push({
+          x: x, y: y, z: z,
+          vx: Math.sin(phi) * Math.cos(theta) * speed,
+          vy: Math.cos(phi) * speed - 1.2,
+          vz: Math.sin(phi) * Math.sin(theta) * speed,
+          life: 1.0,
+          decay: 0.014 + Math.random() * 0.015,
+          color: currentTheme.colors.at(cIdx),
+          size: 1.8 + Math.random() * 2.5
         });
+      }
+    }
 
-        function project(x, y, z) {
-            const fov = 680;
-            const scale = fov / (fov + z + 480);
-            return {
-                x: W * 0.5 + x * scale,
-                y: H * 0.57 + y * scale,
-                scale: scale,
-                z: z
-            };
+    let rotY = 0, rotVelocity = 0.007;
+    let isDragging = false, lastX = 0;
+    let mouseX = -9999, mouseY = -9999;
+    let targetTiltX = 0, currentTiltX = 0;
+    let shockwaveY = 9999, shockwaveActive = false;
+
+    function triggerShockwave(withSound = true) {
+      shockwaveY = TREE_H * 0.52;
+      shockwaveActive = true;
+      spawnFirework(0, -TREE_H * 0.54, 0, 65);
+      if (withSound) playMagicChime(1);
+    }
+
+    window.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      lastX = e.clientX;
+      triggerShockwave(true);
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      targetTiltX = ((e.clientY / H) - 0.5) * 0.25;
+      for (let i = 0; i < 2; i++) {
+        const cIdx = Math.floor(Math.random() * 3);
+        cursorTrail.push({
+          x: e.clientX + (Math.random() - 0.5) * 10,
+          y: e.clientY + (Math.random() - 0.5) * 10,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2 - 0.5,
+          life: 1.0,
+          color: currentTheme.colors.at(cIdx),
+          size: 1.5 + Math.random() * 2.2
+        });
+      }
+      if (isDragging) {
+        const delta = (e.clientX - lastX) * 0.008;
+        rotY += delta;
+        rotVelocity = delta;
+        lastX = e.clientX;
+      }
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDragging = false;
+    });
+    const titleEl = document.getElementById('navidadTitle');
+    document.getElementById('logoBadge')
+      .addEventListener('click', (e) => {
+        e.stopPropagation(); triggerShockwave(true);
+      });
+    titleEl.addEventListener('click', (e) => {
+      e.stopPropagation(); triggerShockwave(true);
+    });
+    document.getElementById('addLightsBtn')
+      .addEventListener('click', (e) => {
+        e.stopPropagation(); addMoreFairyLights(40);
+      });
+    document.getElementById('elfBtn')
+      .addEventListener('click', (e) => {
+        e.stopPropagation();
+        summonElf();
+        playMagicChime(1.25);
+      });
+    document.getElementById('fireworkBtn')
+      .addEventListener('click', (e) => {
+        e.stopPropagation();
+        triggerShockwave(true);
+        spawnFirework(
+          (Math.random() - 0.5) * 180,
+          -120,
+          (Math.random() - 0.5) * 120, 85
+        );
+      });
+    const soundBtn = document.getElementById('soundBtn');
+    soundBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      soundEnabled = !soundEnabled;
+      soundBtn.textContent = soundEnabled
+        ? '🔊 Sonido' : '🔇 Silencio';
+      if (soundEnabled) playMagicChime(1);
+    });
+    document.querySelectorAll('.theme-btn')
+      .forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.theme-btn')
+            .forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentTheme = THEMES[btn.dataset.theme];
+          document.body.style.background = currentTheme.bg;
+          titleEl.style.background = currentTheme.titleGrad;
+          titleEl.style.webkitBackgroundClip = 'text';
+          titleEl.style.backgroundClip = 'text';
+          triggerShockwave(true);
+        });
+      });
+
+    // Inicia al duende entrando desde la izquierda
+    summonElf();
+    function project(x, y, z) {
+      const cosT = Math.cos(currentTiltX);
+      const sinT = Math.sin(currentTiltX);
+      const ry = y * cosT - z * sinT;
+      const rz = y * sinT + z * cosT;
+      const fov = 700;
+      const scale = fov / (fov + rz + 490);
+      return {
+        x: W * 0.5 + x * scale,
+        y: H * 0.55 + ry * scale,
+        scale: scale,
+        z: rz
+      };
+    }
+
+    function drawSantaAndReindeer(time) {
+      santaSleigh.x += santaSleigh.speed;
+      if (santaSleigh.x > W + 340) santaSleigh.x = -340;
+      const sx = santaSleigh.x;
+      const sy = H * santaSleigh.baseY +
+                 Math.sin(time * 2.1) * 14;
+      const sc = Math.max(0.65, Math.min(1.05, W / 1280));
+
+      for (let i = 0; i < 3; i++) {
+        santaSparkles.push({
+          x: sx - 62 * sc + (Math.random() - 0.5) * 16,
+          y: sy + 8 * sc + (Math.random() - 0.5) * 16,
+          vx: -0.7 - Math.random() * 0.9,
+          vy: (Math.random() - 0.5) * 0.8,
+          life: 1.0,
+          size: (1.6 + Math.random() * 2.4) * sc
+        });
+      }
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = santaSparkles.length - 1; i >= 0; i--) {
+        const sp = santaSparkles.at(i);
+        sp.x += sp.vx; sp.y += sp.vy; sp.life -= 0.02;
+        if (sp.life <= 0) {
+          santaSparkles.splice(i, 1); continue;
         }
+        ctx.globalAlpha = sp.life * 0.9;
+        ctx.fillStyle = i % 2 === 0 ? '#ffd700' : '#ffffff';
+        ctx.beginPath();
+        ctx.arc(sp.x, sp.y, sp.size * sp.life, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.translate(sx, sy);
+      ctx.scale(sc, sc);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 0.96;
 
-        let time = 0;
-        function draw() {
-            requestAnimationFrame(draw);
-            time += 0.025;
-            if (!isDragging) rotY += 0.008;
+      // Halo mágico dorado alrededor del trineo
+      const glow = ctx.createRadialGradient(
+        45, 0, 8, 45, 0, 175
+      );
+      glow.addColorStop(0, 'rgba(255, 225, 130, 0.25)');
+      glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(45, 0, 175, 0, Math.PI * 2);
+      ctx.fill();
 
-            ctx.clearRect(0, 0, W, H);
-            ctx.globalCompositeOperation = 'lighter';
+      // Patines dorados curvos
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 2.8;
+      ctx.beginPath();
+      ctx.moveTo(-66, 20); ctx.lineTo(18, 20);
+      ctx.quadraticCurveTo(32, 20, 34, 7);
+      ctx.moveTo(-50, 13); ctx.lineTo(-50, 20);
+      ctx.moveTo(-10, 13); ctx.lineTo(-10, 20);
+      ctx.stroke();
+      // Saco grande de regalos detrás de Papá Noel
+      ctx.fillStyle = '#6d4c41';
+      ctx.beginPath();
+      ctx.ellipse(-42, -8, 17, 15, -0.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#00e676'; ctx.fillRect(-52, -21, 11, 10);
+      ctx.fillStyle = '#2979ff'; ctx.fillRect(-40, -24, 12, 12);
+      ctx.fillStyle = '#ffd700'; ctx.fillRect(-35, -24, 2.5, 12);
 
-            if (shockwaveActive) {
-                shockwaveY -= 9;
-                if (shockwaveY < -TREE_H * 0.65) shockwaveActive = false;
-            }
+      // Cuerpo elegante del trineo con degradado rojo
+      const slGrad = ctx.createLinearGradient(0, -10, 0, 15);
+      slGrad.addColorStop(0, '#e53935');
+      slGrad.addColorStop(1, '#8e0000');
+      ctx.fillStyle = slGrad;
+      ctx.beginPath();
+      ctx.moveTo(-62, -4); ctx.lineTo(-24, -4);
+      ctx.lineTo(-14, 5); ctx.lineTo(10, 5);
+      ctx.quadraticCurveTo(24, 5, 22, -9);
+      ctx.lineTo(16, 15); ctx.lineTo(-54, 15);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 2;
+      ctx.stroke();
 
-            // Nieve 3D
-            for (let i = 0; i < snow.length; i++) {
-                const s = snow[i];
-                s.y += s.speed;
-                s.x += Math.sin(time + i) * 0.3;
-                if (s.y > 450) s.y = -450;
-                const p = project(s.x, s.y, s.z);
-                if (p.scale > 0) {
-                    ctx.fillStyle = 'rgba(220, 240, 255, ' + Math.min(0.75, p.scale * 0.6) + ')';
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, s.size * p.scale, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
+      // Papá Noel detallado (abrigado, cinturón, barba, gorro)
+      ctx.fillStyle = '#d32f2f';
+      ctx.beginPath(); ctx.arc(-8, -5, 11, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#111111'; // Cinturón
+      ctx.fillRect(-18, -5, 20, 3.5);
+      ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 1.5;
+      ctx.strokeRect(-10, -5.5, 5, 4.5); // Hebilla dorada
+      ctx.fillStyle = '#ffffff'; // Cuello blanco
+      ctx.beginPath(); ctx.ellipse(-7, -12, 9, 3, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffccbc'; // Rostro
+      ctx.beginPath(); ctx.arc(-6, -17, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff'; // Barba esponjosa
+      ctx.beginPath(); ctx.arc(-3, -15, 5.5, 0, Math.PI);
+      ctx.fill();
+      ctx.fillStyle = '#d32f2f'; // Gorro
+      ctx.beginPath();
+      ctx.moveTo(-12, -20); ctx.lineTo(0, -20);
+      ctx.lineTo(-16, -29); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#ffffff'; // Pompón
+      ctx.beginPath(); ctx.arc(-17, -29, 2.8, 0, Math.PI * 2);
+      ctx.fill();
 
-            // Renderizar partículas del árbol y su reflejo en el suelo
-            const renderList = [];
-            for (let i = 0; i < particles.length; i++) {
-                const pt = particles[i];
-                const pulse = Math.sin(time * 2 + pt.phase) * 3;
-                let r = pt.baseR + pulse;
-                let y = -pt.baseY;
+      // Riendas doradas
+      ctx.strokeStyle = 'rgba(255, 215, 0, 0.75)';
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(2, -10); ctx.lineTo(62, -5);
+      ctx.lineTo(116, -7); ctx.lineTo(170, -9);
+      ctx.stroke();
 
-                if (shockwaveActive) {
-                    const distW = Math.abs(y - shockwaveY);
-                    if (distW < 45) r += (1 - distW / 45) * 28;
-                }
-
-                const a = pt.angle + rotY;
-                const x = Math.cos(a) * r;
-                const z = Math.sin(a) * r;
-                const proj = project(x, y, z);
-
-                // Repulsión con el cursor
-                const dx = proj.x - mouseX;
-                const dy = proj.y - mouseY;
-                const dMouse = Math.hypot(dx, dy);
-                if (dMouse < 90) {
-                    const push = (1 - dMouse / 90) * 22;
-                    proj.x += (dx / dMouse) * push;
-                    proj.y += (dy / dMouse) * push;
-                }
-
-                renderList.push({
-                    x: proj.x, y: proj.y, z: z,
-                    size: pt.size * proj.scale * (pt.isOrnament ? 2.2 : 1),
-                    color: currentTheme.colors[pt.colorIdx],
-                    isOrnament: pt.isOrnament
-                });
-
-                // Reflejo en el suelo
-                if (i % 3 === 0) {
-                    const floorY = TREE_H * 0.52;
-                    const refY = floorY + (floorY - y) * 0.65;
-                    const refProj = project(x, refY, z);
-                    renderList.push({
-                        x: refProj.x, y: refProj.y, z: z,
-                        size: pt.size * refProj.scale * 0.9,
-                        color: currentTheme.colors[pt.colorIdx],
-                        alpha: 0.16
-                    });
-                }
-            }
-
-            renderList.sort((a, b) => b.z - a.z);
-
-            for (let i = 0; i < renderList.length; i++) {
-                const item = renderList[i];
-                ctx.globalAlpha = item.alpha || (item.isOrnament ? 0.95 : 0.78);
-                ctx.fillStyle = item.color;
-                ctx.beginPath();
-                ctx.arc(item.x, item.y, Math.max(0.6, item.size), 0, Math.PI * 2);
-                ctx.fill();
-
-                if (item.isOrnament) {
-                    ctx.globalAlpha = 0.28;
-                    ctx.beginPath();
-                    ctx.arc(item.x, item.y, item.size * 2.6, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            // Estrella Hiperdimensional en la cima
-            const topProj = project(0, -TREE_H * 0.54, 0);
-            ctx.globalAlpha = 1;
-            const starGrad = ctx.createRadialGradient(topProj.x, topProj.y, 1, topProj.x, topProj.y, 38 * topProj.scale);
-            starGrad.addColorStop(0, '#ffffff');
-            starGrad.addColorStop(0.3, currentTheme.colors[1]);
-            starGrad.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.fillStyle = starGrad;
-            ctx.beginPath();
-            ctx.arc(topProj.x, topProj.y, 38 * topProj.scale, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Anillos giroscópicos
-            ctx.strokeStyle = currentTheme.colors[2];
-            ctx.lineWidth = 1.8;
-            ctx.beginPath();
-            ctx.ellipse(topProj.x, topProj.y, 26 * topProj.scale, 9 * topProj.scale, time, 0, Math.PI * 2);
-            ctx.stroke();
-
-            ctx.strokeStyle = currentTheme.colors[0];
-            ctx.beginPath();
-            ctx.ellipse(topProj.x, topProj.y, 22 * topProj.scale, 8 * topProj.scale, -time * 1.3, 0, Math.PI * 2);
-            ctx.stroke();
+      const reindeers = new Array(62, 116, 170);
+      reindeers.forEach((rx, idx) => {
+        const gallop = Math.sin(time * 9.5 + idx * 1.1);
+        const ry = -2 + gallop * 3.8;
+        ctx.fillStyle = '#795548';
+        ctx.beginPath();
+        ctx.ellipse(rx, ry, 12, 6, -0.1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(rx + 8, ry - 2);
+        ctx.lineTo(rx + 15, ry - 12);
+        ctx.lineTo(rx + 20, ry - 9);
+        ctx.lineTo(rx + 11, ry + 2);
+        ctx.closePath(); ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(rx + 18, ry - 12, 6, 3.8, 0.2, 0, Math.PI * 2);
+        ctx.fill();
+        // Collar rojo con cascabel
+        ctx.strokeStyle = '#d50000'; ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(rx + 9, ry - 4); ctx.lineTo(rx + 13, ry + 1);
+        ctx.stroke();
+        ctx.fillStyle = '#ffd700';
+        ctx.beginPath(); ctx.arc(rx + 12, ry + 2, 2, 0, Math.PI * 2);
+        ctx.fill();
+        // Patas
+        ctx.strokeStyle = '#5d4037'; ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(rx - 7, ry + 3);
+        ctx.lineTo(rx - 11 - gallop * 4.5, ry + 13);
+        ctx.moveTo(rx + 7, ry + 3);
+        ctx.lineTo(rx + 11 + gallop * 4.5, ry + 13);
+        ctx.stroke();
+        // Cornamenta
+        ctx.strokeStyle = '#d7ccc8'; ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(rx + 14, ry - 15);
+        ctx.lineTo(rx + 11, ry - 23);
+        ctx.moveTo(rx + 12, ry - 19);
+        ctx.lineTo(rx + 17, ry - 22);
+        ctx.stroke();
+        if (idx === 2) {
+          ctx.fillStyle = '#ff1744';
+          ctx.beginPath();
+          ctx.arc(rx + 24, ry - 11, 2.8, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = 'rgba(255, 23, 68, 0.5)';
+          ctx.beginPath();
+          ctx.arc(rx + 24, ry - 11, 9, 0, Math.PI * 2);
+          ctx.fill();
         }
-        draw();
-    </script>
+      });
+      ctx.restore();
+    }
+    function updateAndDrawElf(time, floorY) {
+      if (!elf.active) {
+        elf.cooldown -= 0.016;
+        if (elf.cooldown <= 0) summonElf();
+        return;
+      }
+
+      let walkBob = 0;
+      let waveAngle = 0;
+
+      if (elf.state === 'walkIn') {
+        elf.x += elf.dir * 2.2;
+        walkBob = Math.abs(Math.sin(time * 12)) * 5;
+        if ((elf.dir === 1 && elf.x >= elf.targetX) ||
+            (elf.dir === -1 && elf.x <= elf.targetX)) {
+          elf.state = 'drop';
+          elf.timer = 0;
+        }
+      } else if (elf.state === 'drop') {
+        elf.timer += 0.025;
+        if (elf.timer >= 0.7 && elf.hasGift) {
+          elf.hasGift = false;
+          // Agrega un regalo nuevo a la base del árbol
+          gifts.push({
+            angle: Math.random() * Math.PI * 2,
+            dist: BASE_R * (0.72 + Math.random() * 0.35),
+            w: 28, h: 24, d: 26,
+            styleIdx: gifts.length % 3
+          });
+          if (gifts.length > 16) gifts.shift();
+          spawnFirework(elf.x, floorY - 30, 40, 35);
+          playMagicChime(1.35);
+        }
+        if (elf.timer >= 1.2) {
+          elf.state = 'wave';
+          elf.timer = 0;
+        }
+      } else if (elf.state === 'wave') {
+        elf.timer += 0.025;
+        waveAngle = Math.sin(time * 14) * 0.6;
+        if (elf.timer >= 1.8) {
+          elf.state = 'walkOut';
+          elf.dir *= -1;
+        }
+      } else if (elf.state === 'walkOut') {
+        elf.x += elf.dir * 2.4;
+        walkBob = Math.abs(Math.sin(time * 12)) * 5;
+        if (Math.abs(elf.x) > W * 0.6) {
+          elf.active = false;
+          elf.cooldown = 6; // Vuelve a aparecer en 6 segundos
+          return;
+        }
+      }
+
+      const proj = project(elf.x, floorY - walkBob, 45);
+      if (proj.scale <= 0) return;
+
+      ctx.save();
+      ctx.translate(proj.x, proj.y);
+      ctx.scale(proj.scale * elf.dir, proj.scale);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 0.98;
+
+      // Sombra en la nieve
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+      ctx.beginPath();
+      ctx.ellipse(0, 2, 16, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Botas puntiagudas con cascabel
+      ctx.fillStyle = '#b71c1c';
+      ctx.beginPath();
+      ctx.ellipse(-6, -3, 7, 3.5, 0, 0, Math.PI * 2);
+      ctx.ellipse(7, -3, 7, 3.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffd700';
+      ctx.beginPath();
+      ctx.arc(-12, -4, 2, 0, Math.PI * 2);
+      ctx.arc(13, -4, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Piernas a rayas
+      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(-5, -5); ctx.lineTo(-5, -16);
+      ctx.moveTo(5, -5); ctx.lineTo(5, -16);
+      ctx.stroke();
+
+      // Túnica verde de duende y cinturón
+      ctx.fillStyle = '#00a152';
+      ctx.beginPath();
+      ctx.moveTo(-12, -14); ctx.lineTo(12, -14);
+      ctx.lineTo(9, -34); ctx.lineTo(-9, -34);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#111111';
+      ctx.fillRect(-10, -23, 20, 3);
+      ctx.fillStyle = '#ffd700';
+      ctx.fillRect(-2.5, -23.5, 5, 4);
+
+      // Cabeza, orejas puntiagudas y gorro verde
+      ctx.fillStyle = '#ffccbc';
+      ctx.beginPath(); ctx.arc(0, -42, 8.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath(); // Oreja puntiaguda
+      ctx.moveTo(-8, -43); ctx.lineTo(-14, -46);
+      ctx.lineTo(-8, -40); ctx.fill();
+      ctx.fillStyle = '#00c853'; // Gorro
+      ctx.beginPath();
+      ctx.moveTo(-9, -47); ctx.lineTo(9, -47);
+      ctx.lineTo(-6, -64); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#ffd700';
+      ctx.beginPath(); ctx.arc(-6, -64, 2.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Brazo saludando o cargando el regalo
+      ctx.strokeStyle = '#00a152'; ctx.lineWidth = 4;
+      ctx.beginPath();
+      if (elf.state === 'wave') {
+        ctx.moveTo(8, -31);
+        ctx.lineTo(18, -42 + waveAngle * 10);
+      } else {
+        ctx.moveTo(8, -31);
+        ctx.lineTo(16, -24);
+      }
+      ctx.stroke();
+
+      // Regalo en las manos antes de soltarlo
+      if (elf.hasGift) {
+        ctx.fillStyle = '#ff1744';
+        ctx.fillRect(10, -34, 16, 14);
+        ctx.fillStyle = '#ffd700';
+        ctx.fillRect(16.5, -34, 3, 14);
+        ctx.fillRect(10, -28.5, 16, 3);
+      }
+      ctx.restore();
+    }
+    function drawScenicBackdrop(time) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'source-over';
+      const moonX = W * 0.82, moonY = H * 0.20;
+      const moonR = Math.min(W, H) * 0.055;
+      const moonGlow = ctx.createRadialGradient(
+        moonX, moonY, moonR * 0.5,
+        moonX, moonY, moonR * 3.8
+      );
+      moonGlow.addColorStop(0, 'rgba(255, 250, 225, 0.32)');
+      moonGlow.addColorStop(0.5, 'rgba(200, 225, 255, 0.08)');
+      moonGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = moonGlow;
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, moonR * 3.8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#fffbe6';
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
+      ctx.fill();
+
+      for (let i = 0; i < bgStars.length; i++) {
+        const st = bgStars.at(i);
+        const al = 0.25 + 0.65 * Math.abs(
+          Math.sin(time * st.speed + st.phase)
+        );
+        ctx.fillStyle = `rgba(255, 255, 255, ${al})`;
+        ctx.beginPath();
+        ctx.arc(st.x * W, st.y * H, st.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalCompositeOperation = 'lighter';
+      for (let wave = 0; wave < 2; wave++) {
+        const grad = ctx.createLinearGradient(
+          0, H * 0.1, 0, H * 0.55
+        );
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(
+          0.45,
+          wave === 0
+            ? currentTheme.aurora1
+            : currentTheme.aurora2
+        );
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(0, H * 0.55);
+        for (let x = 0; x <= W; x += 35) {
+          const yOff =
+            Math.sin(x * 0.004 + time * 0.8 + wave) * 45 +
+            Math.cos(x * 0.009 - time * 0.5) * 25;
+          ctx.lineTo(x, H * (0.24 + wave * 0.08) + yOff);
+        }
+        ctx.lineTo(W, H * 0.55);
+        ctx.closePath();
+        ctx.fill();
+      }
+      drawSantaAndReindeer(time);
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < bokehLights.length; i++) {
+        const bk = bokehLights.at(i);
+        bk.x = (bk.x + bk.vx + 1) % 1;
+        bk.y = (bk.y + bk.vy + 1) % 1;
+        ctx.globalAlpha =
+          0.04 + 0.04 * Math.sin(time * 1.5 + bk.phase);
+        ctx.fillStyle =
+          currentTheme.colors.at(bk.colorIdx);
+        ctx.beginPath();
+        ctx.arc(bk.x * W, bk.y * H, bk.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 0.85;
+      ctx.fillStyle = currentTheme.mountain;
+      ctx.beginPath();
+      ctx.moveTo(0, H); ctx.lineTo(0, H * 0.72);
+      ctx.lineTo(W * 0.16, H * 0.61);
+      ctx.lineTo(W * 0.32, H * 0.69);
+      ctx.lineTo(W * 0.50, H * 0.58);
+      ctx.lineTo(W * 0.68, H * 0.68);
+      ctx.lineTo(W * 0.85, H * 0.60);
+      ctx.lineTo(W, H * 0.71); ctx.lineTo(W, H);
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+    function drawGift3D(g, floorY) {
+      const a = g.angle + rotY;
+      const cx = Math.cos(a) * g.dist;
+      const cz = Math.sin(a) * g.dist;
+      const cy = floorY - g.h * 0.5;
+      const proj = project(cx, cy, cz);
+      if (proj.scale <= 0) return null;
+      return {
+        z: proj.z,
+        draw: () => {
+          const s = proj.scale;
+          const w = g.w * s, h = g.h * s;
+          const d = g.d * 0.45 * s;
+          const x = proj.x - w * 0.5, y = proj.y - h * 0.5;
+          const pal = currentTheme.gifts.at(g.styleIdx);
+          ctx.save();
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.globalAlpha = 0.96;
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+          ctx.beginPath();
+          ctx.ellipse(
+            proj.x + d * 0.3, y + h + 2 * s,
+            w * 0.72, d * 0.6, 0, 0, Math.PI * 2
+          );
+          ctx.fill();
+          ctx.fillStyle = pal.box;
+          ctx.fillRect(x, y, w, h);
+          ctx.fillStyle = pal.side;
+          ctx.beginPath();
+          ctx.moveTo(x + w, y);
+          ctx.lineTo(x + w + d, y - d * 0.65);
+          ctx.lineTo(x + w + d, y + h - d * 0.65);
+          ctx.lineTo(x + w, y + h);
+          ctx.closePath(); ctx.fill();
+          ctx.fillStyle = pal.top;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + d, y - d * 0.65);
+          ctx.lineTo(x + w + d, y - d * 0.65);
+          ctx.lineTo(x + w, y);
+          ctx.closePath(); ctx.fill();
+          ctx.fillStyle = pal.ribbon;
+          const rw = Math.max(2, w * 0.18);
+          ctx.fillRect(x + w * 0.5 - rw * 0.5, y, rw, h);
+          ctx.beginPath();
+          ctx.moveTo(x + w * 0.5 - rw * 0.5, y);
+          ctx.lineTo(
+            x + d + w * 0.5 - rw * 0.5, y - d * 0.65
+          );
+          ctx.lineTo(
+            x + d + w * 0.5 + rw * 0.5, y - d * 0.65
+          );
+          ctx.lineTo(x + w * 0.5 + rw * 0.5, y);
+          ctx.closePath(); ctx.fill();
+          const bx = x + w * 0.5 + d * 0.5;
+          const by = y - d * 0.32;
+          ctx.strokeStyle = pal.ribbon;
+          ctx.lineWidth = Math.max(1.5, 2.2 * s);
+          ctx.beginPath();
+          ctx.ellipse(
+            bx - 4 * s, by - 2 * s,
+            5 * s, 2.8 * s, -0.4, 0, Math.PI * 2
+          );
+          ctx.ellipse(
+            bx + 4 * s, by - 2 * s,
+            5 * s, 2.8 * s, 0.4, 0, Math.PI * 2
+          );
+          ctx.stroke();
+          ctx.restore();
+        }
+      };
+    }
+
+    function drawStarShape(cx, cy, spk, outR, inR, rot) {
+      ctx.beginPath();
+      for (let i = 0; i < spk * 2; i++) {
+        const r = i % 2 === 0 ? outR : inR;
+        const a = (i * Math.PI) / spk + rot;
+        const px = cx + Math.cos(a) * r;
+        const py = cy + Math.sin(a) * r;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+    }
+
+    function drawCrossGlint(cx, cy, rad, col, al) {
+      ctx.save();
+      ctx.globalAlpha = al;
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(cx - rad, cy); ctx.lineTo(cx + rad, cy);
+      ctx.moveTo(cx, cy - rad); ctx.lineTo(cx, cy + rad);
+      ctx.stroke();
+      ctx.restore();
+    }
+    let time = 0;
+    function draw() {
+      requestAnimationFrame(draw);
+      time += 0.025;
+      currentTiltX += (targetTiltX - currentTiltX) * 0.06;
+      if (!isDragging) {
+        rotY += rotVelocity;
+        rotVelocity += (0.007 - rotVelocity) * 0.03;
+      }
+      ctx.clearRect(0, 0, W, H);
+      drawScenicBackdrop(time);
+      ctx.globalCompositeOperation = 'lighter';
+      const c0 = currentTheme.colors.at(0);
+      const c1 = currentTheme.colors.at(1);
+      const c2 = currentTheme.colors.at(2);
+
+      if (shockwaveActive) {
+        shockwaveY -= 10;
+        if (shockwaveY < -TREE_H * 0.65) {
+          shockwaveActive = false;
+        }
+      }
+
+      const floorY = TREE_H * 0.52;
+      const baseProj = project(0, floorY, 0);
+      if (baseProj.scale > 0) {
+        for (let rIdx = 1; rIdx <= 3; rIdx++) {
+          const pR = (BASE_R * 0.58 * rIdx) +
+                     Math.sin(time * 2 - rIdx) * 8;
+          ctx.strokeStyle =
+            currentTheme.colors.at(rIdx % 3);
+          ctx.globalAlpha = 0.22 / rIdx;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.ellipse(
+            baseProj.x, baseProj.y,
+            pR * baseProj.scale,
+            pR * 0.28 * baseProj.scale,
+            0, 0, Math.PI * 2
+          );
+          ctx.stroke();
+        }
+      }
+
+      const giftDrawables = gifts
+        .map(g => drawGift3D(g, floorY))
+        .filter(Boolean);
+      giftDrawables.sort((a, b) => b.z - a.z);
+      giftDrawables.filter(g => g.z >= 0)
+        .forEach(g => g.draw());
+
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < snow.length; i++) {
+        const s = snow.at(i);
+        s.y += s.speed;
+        s.x += Math.sin(time + i) * 0.35;
+        if (s.y > 500) s.y = -500;
+        const p = project(s.x, s.y, s.z);
+        if (p.scale > 0) {
+          ctx.globalAlpha = Math.min(0.75, p.scale * 0.65);
+          ctx.fillStyle = '#dcf0ff';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, s.size * p.scale, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      const renderList = new Array();
+      for (let i = 0; i < particles.length; i++) {
+        const pt = particles.at(i);
+        let r = pt.baseR +
+                Math.sin(time * 2.2 + pt.phase) * 3.5;
+        let y = -pt.baseY;
+        if (shockwaveActive &&
+            Math.abs(y - shockwaveY) < 50) {
+          r += (1 - Math.abs(y - shockwaveY) / 50) * 34;
+        }
+        const a = pt.angle + rotY;
+        const x = Math.cos(a) * r;
+        const z = Math.sin(a) * r;
+        const proj = project(x, y, z);
+        const dx = proj.x - mouseX;
+        const dy = proj.y - mouseY;
+        const dMouse = Math.hypot(dx, dy);
+        if (dMouse > 0 && dMouse < 95) {
+          const push = (1 - dMouse / 95) * 24;
+          proj.x += (dx / dMouse) * push;
+          proj.y += (dy / dMouse) * push;
+        }
+        const tw = 0.65 +
+          0.35 * Math.sin(time * pt.sparkSpeed + pt.phase);
+        renderList.push({
+          x: proj.x, y: proj.y, z: proj.z,
+          size: pt.size * proj.scale *
+                (pt.isOrnament ? 2.2 : 1),
+          color: currentTheme.colors.at(pt.colorIdx),
+          isOrnament: pt.isOrnament,
+          isExtraLight: pt.isExtraLight,
+          twinkle: tw,
+          alpha: (pt.isOrnament ? 0.98 : 0.8) * tw
+        });
+      }
+      renderList.sort((a, b) => b.z - a.z);
+      for (let i = 0; i < renderList.length; i++) {
+        const item = renderList.at(i);
+        ctx.globalAlpha = item.alpha;
+        ctx.fillStyle = item.color;
+        ctx.beginPath();
+        ctx.arc(
+          item.x, item.y,
+          Math.max(0.6, item.size), 0, Math.PI * 2
+        );
+        ctx.fill();
+        if (item.isOrnament) {
+          ctx.globalAlpha = 0.32 * (item.twinkle || 1);
+          ctx.beginPath();
+          ctx.arc(
+            item.x, item.y,
+            item.size * 2.9, 0, Math.PI * 2
+          );
+          ctx.fill();
+          if (item.isExtraLight && item.twinkle > 0.82) {
+            drawCrossGlint(
+              item.x, item.y,
+              item.size * 3.6, '#ffffff', 0.75
+            );
+          }
+        }
+      }
+
+      giftDrawables.filter(g => g.z < 0)
+        .forEach(g => g.draw());
+
+      // Dibuja y anima al Duende repartidor
+      updateAndDrawElf(time, floorY);
+
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = bursts.length - 1; i >= 0; i--) {
+        const b = bursts.at(i);
+        b.x += b.vx; b.y += b.vy; b.z += b.vz;
+        b.vy += 0.08; b.vx *= 0.97; b.vz *= 0.97;
+        b.life -= b.decay;
+        if (b.life <= 0) {
+          bursts.splice(i, 1); continue;
+        }
+        const bp = project(b.x, b.y, b.z);
+        if (bp.scale > 0) {
+          ctx.globalAlpha = b.life;
+          ctx.fillStyle = b.color;
+          ctx.beginPath();
+          ctx.arc(
+            bp.x, bp.y,
+            b.size * bp.scale * b.life, 0, Math.PI * 2
+          );
+          ctx.fill();
+        }
+      }
+
+      const topProj = project(0, -TREE_H * 0.545, 0);
+      ctx.globalAlpha = 1;
+      const starGrad = ctx.createRadialGradient(
+        topProj.x, topProj.y, 1,
+        topProj.x, topProj.y, 54 * topProj.scale
+      );
+      starGrad.addColorStop(0, '#ffffff');
+      starGrad.addColorStop(0.25, c1);
+      starGrad.addColorStop(0.6, c2);
+      starGrad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = starGrad;
+      ctx.beginPath();
+      ctx.arc(
+        topProj.x, topProj.y,
+        54 * topProj.scale, 0, Math.PI * 2
+      );
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.globalAlpha = 0.95;
+      drawStarShape(
+        topProj.x, topProj.y, 8,
+        22 * topProj.scale, 4 * topProj.scale, time * 0.8
+      );
+      ctx.fill();
+      ctx.fillStyle = c1;
+      ctx.globalAlpha = 0.78;
+      drawStarShape(
+        topProj.x, topProj.y, 4,
+        29 * topProj.scale, 3 * topProj.scale, -time * 1.1
+      );
+      ctx.fill();
+
+      for (let i = cursorTrail.length - 1; i >= 0; i--) {
+        const ct = cursorTrail.at(i);
+        ct.x += ct.vx; ct.y += ct.vy;
+        ct.life -= 0.035;
+        if (ct.life <= 0) {
+          cursorTrail.splice(i, 1); continue;
+        }
+        ctx.globalAlpha = ct.life * 0.8;
+        ctx.fillStyle = ct.color;
+        ctx.beginPath();
+        ctx.arc(
+          ct.x, ct.y,
+          ct.size * ct.life, 0, Math.PI * 2
+        );
+        ctx.fill();
+      }
+    }
+    draw();
+  </script>
 </body>
 </html>
